@@ -10,6 +10,10 @@
     "less-middleware": "*",
     "amd-loader": "*",
     "underscore": "*",
-    "jade": "*"
+    "jade": "*",
+    "redis": "*",
+    "connect-redis": "*",
+    "passport": "*",
+    "passport-facebook": "*"
   }
 }
