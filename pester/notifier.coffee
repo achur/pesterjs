@@ -61,6 +61,6 @@ process_all = ->
       process_notify(user, notification)
   check_sms()
 
-# Do a run-through every 10 seconds
-setInterval(process_all, 10000)
+# Do a run-through every 60 seconds
+setInterval(process_all, 60000)
 
