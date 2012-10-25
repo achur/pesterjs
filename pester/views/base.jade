@@ -13,7 +13,8 @@ html(lang="en")
           a.brand(href='/') PesterJS
           ul.nav
             li
-              a.notifylink(href='/notify/') Send a Notification
+              - if (typeof(user) != 'undefined' && user)
+                a.notifylink(href='/notify/') Send a Notification
           ul.nav.pull-right
             li
               a(href='/preview/') What is this?

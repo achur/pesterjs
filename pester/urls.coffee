@@ -25,8 +25,12 @@ define ->
       res.render 'number',
         user: req.user
     '/notify/': (req, res) ->
-      res.render 'notify'
-        users: User._store
+      if not req.user?
+        res.redirect('/')
+      else
+        res.render 'notify'
+          user: req.user
+          users: User._store
     '/done/': (req, res) ->
       if req.user?
         req.user.handle_done()
