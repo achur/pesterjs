@@ -1,0 +1,26 @@
+extends base
+
+block content
+  h1 Welcome, #{ user.name.givenName }
+  hr
+  .row-fluid
+    .span6
+      h3 My number:
+      a(href='/number/')= utils.format_phone(user.number)
+    .span6.notifications
+      h3 My notifications
+      a.btn.btn-info(href='/done/') Mark done
+      h4 Active
+      .active
+        - if (user.active_notifications.length)
+          ul
+            - for (var x = 0; x < user.active_notifications.length; x++)
+              li.item #{user.active_notifications[x].text}
+        - else
+          span No active notifications
+      h4 Completed
+      .inactive
+        - if (user.completed_notifications.length)
+          ul
+            - for(var x = 0; x < user.completed_notifications.length; x++)
+              li.item #{user.completed_notifications[x].text}

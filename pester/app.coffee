@@ -16,9 +16,10 @@ FacebookStrategy = require('passport-facebook').Strategy
 passport.use new FacebookStrategy
   clientID: variables.FACEBOOK_APP_ID
   clientSecret: variables.FACEBOOK_APP_SECRET
-  callbackURL: variables.SITE_URL + '/auth/facebook/callback'
+  callbackURL: variables.SITE_URL + '/auth/facebook/callback/'
   (accessToken, refreshToken, profile, done) ->
     User.get_or_create profile.id, profile, (user, created, cached) ->
+      console.log profile
       # Always save the user with fresh info from facebook
       user.save()
       if created
@@ -36,14 +37,21 @@ app.configure ->
   app.use(express.cookieSession(secret: variables.SESSION_SECRET, store: new RedisStore))
   app.use(passport.initialize())
   app.use(passport.session())
+  app.use(express.bodyParser())
   app.use(app.router)
   app.set('views', __dirname + '/views')
   app.set('view engine', 'jade')
 
 # Auth callbacks
-app.get '/auth/facebook', passport.authenticate('facebook')
-app.get '/auth/facebook/callback',
+app.get '/auth/facebook/', passport.authenticate('facebook')
+app.get '/auth/facebook/callback/',
   passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' })
+app.get '/logout/', (req, res) ->
+  req.logOut()
+  res.redirect('/')
+
+# Load all users into store
+User.load_users()
 
 
 # Hook up static files under the static subdirectory
@@ -59,4 +67,8 @@ for url of routes.get
 for url of routes.post
   app.post url, routes.post[url]
 
+# Start up the notification loop
+require('./notifier')
+
+# Start up the server
 app.listen 3000

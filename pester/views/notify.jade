@@ -1,0 +1,26 @@
+extends base
+
+block append css
+  link(rel='stylesheet', href='/static/lib/select2/select2.css')
+
+block append js
+  script(src='/static/lib/jquery.min.js')
+  script(src='/static/lib/select2/select2.min.js')
+  script(type='text/javascript')
+    $(document).ready(function() { $('.select2').select2() })
+
+
+block content
+  h1 Send a notification
+  form.form-horizontal(action='/send/', method='post')
+    .control-group
+      label.control-label To:
+      .controls
+        select.select2(name='user')
+          - for(id in users)
+            option(value='#{ id }') #{ users[id].name.givenName } #{ users[id].name.familyName }
+    .control-group
+      label.control-label Message:
+      .controls
+        textarea.input-xxlarge(rows=2, name='text')
+    input.btn.btn-success.offset5(type='submit')

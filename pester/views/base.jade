@@ -2,7 +2,25 @@
 html(lang="en")
   head
     title PesterJS
+    block css
+      link(rel='stylesheet', href='/static/lib/bootstrap/css/bootstrap.css')
+      link(rel='stylesheet', href='/static/css/style.css')
+    block js
   body
-    h1 PesterJS
-    .content
-      PesterJS: Anonymous Notifications using ExpressJS
+    .navbar
+      .navbar-inner
+        .container
+          a.brand(href='/') PesterJS
+          ul.nav
+            li
+              a(href='/notify/') Send a Notification
+          ul.nav.pull-right
+            li
+              a(href='/preview/') What is this?
+            li.pull-right
+              - if (typeof(user) != 'undefined' && user)
+                a(href='/logout/') Logout
+              - else
+                a(href='/login/') Login
+    .container
+      block content

@@ -1,0 +1,7 @@
+extends base
+
+block content
+  h1 Enter your phone number
+  form.form-inline(action='/update/', method='post')
+    input.input-large(type='text', name='phonenumber')
+    input.btn.btn-success(type='submit')
